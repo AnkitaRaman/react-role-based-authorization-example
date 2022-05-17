@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import { RegisterPage} from '@/RegisterPage';
+import { Router, Route, Link } from 'react-router-dom';
 import { authenticationService } from '@/_services';
-
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -12,28 +12,30 @@ class LoginPage extends React.Component {
         if (authenticationService.currentUserValue) { 
             this.props.history.push('/');
         }
+        
     }
-
+    navigateTo = () => this.props.history.push('/register')
     render() {
         return (
             <div>
                 <div className="alert alert-info">
-                    <strong>Normal User</strong> - U: user P: user<br />
-                    <strong>Administrator</strong> - U: admin P: admin
-                </div>
+                    <strong>Normal User</strong> - U: kamalprasath@cgi.com P: kamal<br />
+                    <strong>Administrator</strong> - U: sai@gmail.com P: sai <br/>
+             
+                    </div>
                 <h2>Login</h2>
                 <Formik
                     initialValues={{
-                        username: '',
+                        email: '',
                         password: ''
                     }}
                     validationSchema={Yup.object().shape({
-                        username: Yup.string().required('Username is required'),
+                        email: Yup.string().required('Username is required'),
                         password: Yup.string().required('Password is required')
                     })}
-                    onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
+                    onSubmit={({ email, password }, { setStatus, setSubmitting }) => {
                         setStatus();
-                        authenticationService.login(username, password)
+                        authenticationService.login(email, password)
                             .then(
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
@@ -48,9 +50,9 @@ class LoginPage extends React.Component {
                     render={({ errors, status, touched, isSubmitting }) => (
                         <Form>
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                                <ErrorMessage name="username" component="div" className="invalid-feedback" />
+                                <label htmlFor="email">Username</label>
+                                <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
@@ -58,17 +60,24 @@ class LoginPage extends React.Component {
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button> <br/> <br/>
+                                
                                 {isSubmitting &&
                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                 }
+                                
+                                <button type="submit" className="btn btn-primary" onClick={this.navigateTo}>Register</button> <br></br>
+                                
+                            
                             </div>
+                            
                             {status &&
                                 <div className={'alert alert-danger'}>{status}</div>
                             }
                         </Form>
                     )}
                 />
+                
             </div>
         )
     }

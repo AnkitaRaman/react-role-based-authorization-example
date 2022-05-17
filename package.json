@@ -7,16 +7,18 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open --port 9000 "
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "formik": "^1.4.2",
     "history": "^4.7.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.1.2",
+    "react-table": "^7.7.0",
     "rxjs": "^6.3.3",
-    "yup": "^0.26.10"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

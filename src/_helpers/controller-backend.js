@@ -1,14 +1,14 @@
-import { Role } from './'
+import { Role } from '.'
 
-export function configureFakeBackend() {
+export function configureControllerBackend() {
     let users = [
-        { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
-        { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User }
+        { userId: 1, email: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
+        { userId: 2, email: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User }
     ];
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
         const authHeader = opts.headers['Authorization'];
-        const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token');
+        const isLoggedIn = authHeader && authHeader.startsWith('Bearer controller-jwt-token');
         const roleString = isLoggedIn && authHeader.split('.')[1];
         const role = roleString ? Role[roleString] : null;
 
@@ -18,31 +18,31 @@ export function configureFakeBackend() {
                 // authenticate - public
                 if (url.endsWith('/users/authenticate') && opts.method === 'POST') {
                     const params = JSON.parse(opts.body);
-                    const user = users.find(x => x.username === params.username && x.password === params.password);
+                    const user = users.find(x => x.email === params.email && x.password === params.password);
                     if (!user) return error('Username or password is incorrect');
                     return ok({
-                        id: user.id,
-                        username: user.username,
+                        userId: user.userId,
+                        email: user.email,
                         firstName: user.firstName,
                         lastName: user.lastName,
                         role: user.role,
-                        token: `fake-jwt-token.${user.role}`
+                        token: `controller-jwt-token.${user.role}`
                     });
                 }
 
-                // get user by id - admin or user (user can only access their own record)
+                // get user by userId - admin or user (user can only access their own record)
                 if (url.match(/\/users\/\d+$/) && opts.method === 'GET') {
                     if (!isLoggedIn) return unauthorised();
 
-                    // get id from request url
+                    // get userId from request url
                     let urlParts = url.split('/');
-                    let id = parseInt(urlParts[urlParts.length - 1]);
+                    let userId = parseInt(urlParts[urlParts.length - 1]);
 
                     // only allow normal users access to their own record
                     const currentUser = users.find(x => x.role === role);
-                    if (id !== currentUser.id && role !== Role.Admin) return unauthorised();
+                    if (userId !== currentUser.userId && role !== Role.Admin) return unauthorised();
 
-                    const user = users.find(x => x.id === id);
+                    const user = users.find(x => x.userId === userId);
                     return ok(user);
                 }
 

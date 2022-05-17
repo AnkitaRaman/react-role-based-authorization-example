@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 
 import { App } from './App';
 
-// setup fake backend
-import { configureFakeBackend } from './_helpers';
-configureFakeBackend();
+// setup controller backend
+//import { configureControllerBackend } from './_helpers';
+//configureControllerBackend();
 
 render(
     <App />,
