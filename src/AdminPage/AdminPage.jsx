@@ -64,12 +64,12 @@ class AdminPage extends React.Component {
         return (
             <div className="container">
       <div className="row">
-         <div className="col-md-6 col-md-offset-5">
-             <h1 className="title">All Events</h1>
+         <div className="col-lg-18 col-md-offset-5">
+             <h3 className="title">List of all users.</h3>
              <table>
               <tr>
-                <th>Event title</th>
-                <th>Event location</th> 
+                <th>User Name</th>
+                <th>Role</th> 
               </tr>
                 {contents}
             </table>

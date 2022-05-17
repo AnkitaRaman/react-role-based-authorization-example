@@ -26,16 +26,17 @@ class HomePage extends React.Component {
         const { currentUser, userFromApi } = this.state;
         return (
             <div>
-                <h1>Home</h1>
-                <p>You're logged in with React & JWT!!</p>
-                <p>Your role is: <strong>{currentUser.role}</strong>.</p>
-                <p>This page can be accessed by all authenticated users.</p>
+                <h1> Welcome Home</h1>
+                
+                
                 <div>
-                    Current user from secure api end point:
                     {userFromApi &&
-                        <ul>
-                            <li>{userFromApi.firstName} {userFromApi.lastName}</li>
-                        </ul>
+                         <div>
+                         <div>  <h4> Hi {userFromApi.firstName} {userFromApi.lastName}</h4></div>
+                         <p>Your role is: <strong>{currentUser.role}</strong>.</p>
+                         <p>This page can be accessed by all authenticated users.</p>
+                         <p>Please update your password.</p>
+                         </div>
                     }
                 </div>
                 <Formik

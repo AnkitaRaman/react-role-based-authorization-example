@@ -140,11 +140,11 @@ class CoursesPage extends React.Component {
         console.log("coursesFromApiLive",coursesFromApiLive)
         return (
             <div>
-                hjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                <h3>Hi <strong>{currentUser.firstName}</strong></h3>
                 <p>Your role is: <strong>{currentUser.role}</strong>.</p>
                 <p>This page can be accessed by all authenticated users.</p>
                 <div>
-                    Current user from secure api end point:
+                    
                     <ul>CourseId===Course============ Status</ul>
                     {coursesFromApi &&
                         <ul>
@@ -164,6 +164,7 @@ class CoursesPage extends React.Component {
                   return (
                       
                  <div>
+                   <h4>Request New Course</h4>
           <div className="form-group">
             <label for="nameImput">Course</label>
             <input type="text" name="name" value={this.state.name} onChange={this.handleChange} className="form-control" id="nameImput" placeholder="Course" />
