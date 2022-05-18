@@ -4,18 +4,23 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx','.css']
     },
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
                 loader: 'babel-loader'
-            }
+            },
+            {
+                test: /\.css$/,
+                // the order of `use` is important!
+                use: [{ loader: 'style-loader' },{ loader: 'css-loader' }],
+              },
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx','.css'],
         alias: {
             '@': path.resolve(__dirname, 'src/'),
         }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { userService, authenticationService } from '@/_services';
-
+import '../style.css';
 class CoursesPage extends React.Component {
     constructor(props) {
         super(props);
@@ -32,7 +32,7 @@ class CoursesPage extends React.Component {
         userService.getAllCourses().then((coursesFromApi) => {
           var coursesFromApiLive = coursesFromApi.filter(function (el)
           {
-            return el.status=="live"
+            return el.status=="Live"
           }
           );
         this.setState({ coursesFromApi,coursesFromApiLive } );
@@ -45,6 +45,22 @@ class CoursesPage extends React.Component {
         var roleUser=currentUser.role;
     }
 
+    deleteUser(courseData){
+      console.log(courseData,"Ankita");
+      fetch(`http://localhost:8080/courses/${courseData.cId}`, {
+          
+          method: "DELETE",
+          headers: { 'Content-Type': 'application/json' },
+        }).then(
+          user=>{
+              alert("Course is being Deleted")
+              window.location.reload()
+          },
+          error => {
+              console.log(error)
+          }
+      );
+  }
 
     handleSubmit(event) {
       const { currentUser } = this.state;
@@ -93,7 +109,7 @@ class CoursesPage extends React.Component {
             body: JSON.stringify({
                 cId:getCName.cId ,
                 courses: getCName.courses,
-                status: "live"
+                status: "Live"
               
             }),
             headers: { 'Content-Type': 'application/json' },
@@ -113,6 +129,35 @@ class CoursesPage extends React.Component {
         event.preventDefault();
       }
 
+      approveRequest1(data) {
+        console.log("in approval",data);
+        userService.getCourrseById(data.cId).then((getCName) => {console.log("Belsari");this.setState({ getCName }); console.log("getCName",getCName);
+        console.log(getCName.courses,"XXXXXXXXXXX",getCName);
+      fetch("http://localhost:8080/courses/updatestatus", {
+          
+          method: "PUT",
+          body: JSON.stringify({
+              cId:getCName.cId ,
+              courses: getCName.courses,
+              status: "Live"
+            
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        }).then(
+          update=>{
+            alert("course has been approved")
+            window.location.reload(); 
+          },
+          error => {
+              console.log(error)
+          }
+      );
+      });
+
+       
+      
+      event.preventDefault();
+    }
       approveInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -125,16 +170,44 @@ class CoursesPage extends React.Component {
     render() {
         const { currentUser, userFromApi, coursesFromApi, coursesFromApiLive } = this.state;
         let roleBasedStatus;
+        const contents = <React.Fragment>{coursesFromApi && 
+          coursesFromApi.map(item => {
+          // change the title and location key based on your API
+          const temp = (item.status=="Live") ? "text-success" : "text-secondary";
+          const redDot = (item.status=="Live") ? "spinner-grow text-danger" : "";
+          return <tr >
+          <td scope="row">{item.cId}</td> 
+          <td scope="row" className="kk">{item.courses}</td>
+          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span>{item.status}</td>
+          
+          {(() => {
+              
+              if (currentUser.role == 'admin'){
+                  return (
+                    <React.Fragment>      
+            
+            <td> <button className="btn btn-info btn-sm" onClick={() => this.approveRequest1(item)}>Approve </button></td>
+            <td> <button className="btn btn-danger btn-sm" onClick={() => this.deleteUser(item)}>Delete </button></td>
+            </React.Fragment>
+            )
+            }
+        
+             return;
+            })()}
+        </tr>
+     })
+       }</React.Fragment>
+
         if (currentUser.role == 'user'){
           
-            roleBasedStatus= <div className="form-group">
+            roleBasedStatus= <div className="form-group" hidden>
           <label for="emailImput">Status</label>
           <input name="email" type="text" value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Pending" />
         </div>
       }else{
-            roleBasedStatus=<div className="form-group">
+            roleBasedStatus=<div className="form-group" hidden>
           <label for="emailImput">Status</label>
-          <input name="email" type="text" value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Live" />
+          <input name="email" type="text"  value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Live" />
         </div>
          }
         console.log("coursesFromApiLive",coursesFromApiLive)
@@ -144,17 +217,28 @@ class CoursesPage extends React.Component {
                 <p>Your role is: <strong>{currentUser.role}</strong>.</p>
                 <p>This page can be accessed by all authenticated users.</p>
                 <div>
-                    
-                    <ul>CourseId===Course============ Status</ul>
-                    {coursesFromApi &&
-                        <ul>
-                           
-                        {coursesFromApi.map(coursesFromApi =>
-                            <li >{coursesFromApi.cId}==={coursesFromApi.courses}============ {coursesFromApi.status}</li>
-                        )}
+                    <table class="table table-striped table-hover table-secondary  table-bordered"  style={{'text-align': 'center'}}>
+                      <tr className='bg-dark text-white'>
+                        <th scope="col" >Course ID</th>
+                        <th >Course Name</th> 
+                        <th >Status</th>
                         
-                        </ul>
-                    }
+                        {(() => {
+              if (currentUser.role == 'admin'){
+                  return (
+                    <React.Fragment>  
+                      <th>Approve Course</th>    
+                      <th >Delete Course </th> 
+                      
+            </React.Fragment>
+            )
+            }
+        
+             
+            })()}
+                      </tr>
+                        {contents}
+                    </table>
                 </div>
       
 <div>
@@ -166,7 +250,7 @@ class CoursesPage extends React.Component {
                  <div>
                    <h4>Request New Course</h4>
           <div className="form-group">
-            <label for="nameImput">Course</label>
+            <label for="nameImput">Enter new Course name</label>
             <input type="text" name="name" value={this.state.name} onChange={this.handleChange} className="form-control" id="nameImput" placeholder="Course" />
           </div>
          {roleBasedStatus}
@@ -191,12 +275,13 @@ class CoursesPage extends React.Component {
           </div>
           <input type="submit" value="Submit" className="btn btn-primary" />
           </div> */}
-
-<div className="form-group">
-            <label for="nameImput">Course</label>
-            <input type="text" name="cIds" value={this.state.cIds} onChange={this.handleUpdate} className="form-control" id="nameImput" />
+          
+            <h4 style={{padding:"1em 0em 0em 0em"}}>Approve Course by cId</h4>
+            <div className="form-group">
+            <label for="nameImput">Please provide Course Id  to approve</label>
+            <input type="number" name="cIds" value={this.state.cIds} onChange={this.handleUpdate} className="form-control" id="nameImput" placeholder="Course Id"/>
           </div>
-          <input type="submit" value="Submit" className="btn btn-primary" />
+          <input type="submit" value="Approve" className="btn btn-primary" />
           </div>
           )
         }

@@ -24,7 +24,7 @@ class RegisterPage extends React.Component {
                     initialValues={{
                       "firstName": "",
                       "lastName": "",
-                      "role": "admin/user",
+                      "role": "user",
                       "email": "",
                       "password": ""
                     }}
