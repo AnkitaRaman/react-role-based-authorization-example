@@ -17,7 +17,7 @@ class AdminPage extends React.Component {
 
     updateRole(userData){
         console.log(userData,"shjdhhsdhsjdhj", userData.email)
-        fetch("http://localhost:8080/user", {
+        fetch("http://34.145.73.148/user", {
             
             method: "POST",
             body: JSON.stringify({
@@ -41,9 +41,13 @@ class AdminPage extends React.Component {
         );
     }
 
+    Capitalize(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
     deleteUser(userData){
         console.log(userData,"shjdhhsdhsjdhj", userData.email);
-        fetch(`http://localhost:8080/user/${userData.userId}`, {
+        fetch(`http://34.145.73.148/user/${userData.userId}`, {
             
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
@@ -64,8 +68,8 @@ class AdminPage extends React.Component {
             users.map(item => {
             // change the title and location key based on your API
             return <tr >
-            <td scope="row">{item.firstName} {item.lastName}</td> 
-            <td scope="row">{item.role}</td>
+            <td scope="row">{this.Capitalize(item.firstName)} {this.Capitalize(item.lastName)}</td> 
+            <td scope="row">{this.Capitalize(item.role)}</td>
             {/* {(() => {
               if (item.role != 'admin'){
                   return (

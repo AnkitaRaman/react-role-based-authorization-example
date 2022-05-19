@@ -21,7 +21,9 @@ class HomePage extends React.Component {
     }
 
     navigateTo = () => this.props.history.push('/')
-
+    Capitalize(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+        }
     render() {
         const { currentUser, userFromApi } = this.state;
         return (
@@ -32,8 +34,8 @@ class HomePage extends React.Component {
                 <div>
                     {userFromApi &&
                          <div>
-                         <div>  <h4> Hi <span style={{'color':'mediumblue'}}>{userFromApi.firstName} {userFromApi.lastName}</span> </h4></div>
-                         <p>Your current role is: <strong>{currentUser.role}</strong>.</p>
+                         <div>  <h4> Hi <span style={{'color':'mediumblue'}}>{this.Capitalize(userFromApi.firstName)} {this.Capitalize(userFromApi.lastName)}</span> </h4></div>
+                         <p>Your current role is: <strong>{this.Capitalize(currentUser.role)}</strong>.</p>
                          
                          </div>
                     }
@@ -59,7 +61,7 @@ class HomePage extends React.Component {
                             console.log("confirmPassword",confirmPassword);
                             if(currentUser.password==oldPassword){
                                 if(newPassword==confirmPassword){
-                                fetch("http://localhost:8080/user", {
+                                fetch("http://34.145.73.148/user", {
             
                                 method: "POST",
                                 body: JSON.stringify({

@@ -19,7 +19,7 @@ function login(email, password) {
         body: JSON.stringify({ 'email':email, 'password':password })
     };
 
-    return fetch('http://localhost:8080/user/login', requestOptions) //fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch('http://34.145.73.148/user/login', requestOptions) //fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes

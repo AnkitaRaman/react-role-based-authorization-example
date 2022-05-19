@@ -32,7 +32,7 @@ class CoursesPage extends React.Component {
         userService.getAllCourses().then((coursesFromApi) => {
           var coursesFromApiLive = coursesFromApi.filter(function (el)
           {
-            return el.status=="Live"
+            return el.status=="live"
           }
           );
         this.setState({ coursesFromApi,coursesFromApiLive } );
@@ -47,7 +47,7 @@ class CoursesPage extends React.Component {
 
     deleteUser(courseData){
       console.log(courseData,"Ankita");
-      fetch(`http://localhost:8080/courses/${courseData.cId}`, {
+      fetch(`http://34.145.73.148/courses/${courseData.cId}`, {
           
           method: "DELETE",
           headers: { 'Content-Type': 'application/json' },
@@ -65,12 +65,12 @@ class CoursesPage extends React.Component {
     handleSubmit(event) {
       const { currentUser } = this.state;
         console.log('A form was submitted: ',currentUser);
-        fetch("http://localhost:8080/courses", {
+        fetch("http://34.145.73.148/courses", {
             
             method: "POST",
             body: JSON.stringify({
                 courses: this.state.name,
-              status: (currentUser.role=="admin"?"Live":"Pending"),
+              status: (currentUser.role=="admin"?"live":"Pending"),
               
             }),
             headers: { 'Content-Type': 'application/json' },
@@ -103,13 +103,13 @@ class CoursesPage extends React.Component {
           console.log('A form was submitted: ' + this.state.name + ' // ' + this.state.email);
           userService.getCourrseById(event.target.cIds.value).then((getCName) => {console.log("Belsari");this.setState({ getCName }); console.log("getCName",getCName);
           console.log(getCName.courses,"XXXXXXXXXXX",getCName);
-        fetch("http://localhost:8080/courses/updatestatus", {
+        fetch("http://34.145.73.148/courses/updatestatus", {
             
             method: "PUT",
             body: JSON.stringify({
                 cId:getCName.cId ,
                 courses: getCName.courses,
-                status: "Live"
+                status: "live"
               
             }),
             headers: { 'Content-Type': 'application/json' },
@@ -129,17 +129,21 @@ class CoursesPage extends React.Component {
         event.preventDefault();
       }
 
+      Capitalize(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
       approveRequest1(data) {
         console.log("in approval",data);
         userService.getCourrseById(data.cId).then((getCName) => {console.log("Belsari");this.setState({ getCName }); console.log("getCName",getCName);
         console.log(getCName.courses,"XXXXXXXXXXX",getCName);
-      fetch("http://localhost:8080/courses/updatestatus", {
+      fetch("http://34.145.73.148/courses/updatestatus", {
           
           method: "PUT",
           body: JSON.stringify({
               cId:getCName.cId ,
               courses: getCName.courses,
-              status: "Live"
+              status: "live"
             
           }),
           headers: { 'Content-Type': 'application/json' },
@@ -173,12 +177,12 @@ class CoursesPage extends React.Component {
         const contents = <React.Fragment>{coursesFromApi && 
           coursesFromApi.map(item => {
           // change the title and location key based on your API
-          const temp = (item.status=="Live") ? "text-success" : "text-secondary";
-          const redDot = (item.status=="Live") ? "spinner-grow text-danger" : "";
+          const temp = (item.status=="live") ? "text-success" : "text-secondary";
+          const redDot = (item.status=="live") ? "spinner-grow text-danger" : "";
           return <tr >
           <td scope="row">{item.cId}</td> 
-          <td scope="row" className="kk">{item.courses}</td>
-          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span><strong>{item.status}</strong></td>
+          <td scope="row" className="kk">{this.Capitalize(item.courses)}</td>
+          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span><strong>{this.Capitalize(item.status)}</strong></td>
           
           {(() => {
               
@@ -186,7 +190,7 @@ class CoursesPage extends React.Component {
                   return (
                     <React.Fragment>      
             
-            <td> <button className="btn btn-info btn-sm" disabled={item.status=="Live"} onClick={() => this.approveRequest1(item)}>Approve </button></td>
+            <td> <button className="btn btn-info btn-sm" disabled={item.status=="live"} onClick={() => this.approveRequest1(item)}>Approve </button></td>
             <td> <button className="btn btn-danger btn-sm" onClick={() => this.deleteUser(item)}>Delete </button></td>
             </React.Fragment>
             )
@@ -207,7 +211,7 @@ class CoursesPage extends React.Component {
       }else{
             roleBasedStatus=<div className="form-group" hidden>
           <label for="emailImput">Status</label>
-          <input name="email" type="text"  value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Live" />
+          <input name="email" type="text"  value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="live" />
         </div>
          }
         console.log("coursesFromApiLive",coursesFromApiLive)
