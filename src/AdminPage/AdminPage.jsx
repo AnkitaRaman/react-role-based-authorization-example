@@ -66,7 +66,7 @@ class AdminPage extends React.Component {
             return <tr >
             <td scope="row">{item.firstName} {item.lastName}</td> 
             <td scope="row">{item.role}</td>
-            {(() => {
+            {/* {(() => {
               if (item.role != 'admin'){
                   return (
                     <React.Fragment>      
@@ -77,7 +77,9 @@ class AdminPage extends React.Component {
             }
         
              return <td></td>;
-            })()}
+            })()} */}
+             <td> <button className="btn btn-primary btn-sm" disabled={item.role=="admin"} onClick={() => this.updateRole(item)}> Promote </button></td>
+            
             <td> <button className="btn btn-danger btn-sm" onClick={() => this.deleteUser(item)}>Delete User </button></td>
           </tr>
        })

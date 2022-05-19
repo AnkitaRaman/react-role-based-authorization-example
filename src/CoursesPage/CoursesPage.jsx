@@ -178,7 +178,7 @@ class CoursesPage extends React.Component {
           return <tr >
           <td scope="row">{item.cId}</td> 
           <td scope="row" className="kk">{item.courses}</td>
-          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span>{item.status}</td>
+          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span><strong>{item.status}</strong></td>
           
           {(() => {
               
@@ -186,7 +186,7 @@ class CoursesPage extends React.Component {
                   return (
                     <React.Fragment>      
             
-            <td> <button className="btn btn-info btn-sm" onClick={() => this.approveRequest1(item)}>Approve </button></td>
+            <td> <button className="btn btn-info btn-sm" disabled={item.status=="Live"} onClick={() => this.approveRequest1(item)}>Approve </button></td>
             <td> <button className="btn btn-danger btn-sm" onClick={() => this.deleteUser(item)}>Delete </button></td>
             </React.Fragment>
             )
@@ -215,7 +215,7 @@ class CoursesPage extends React.Component {
             <div>
                 <h3>Hi <strong>{currentUser.firstName}</strong></h3>
                 <p>Your role is: <strong>{currentUser.role}</strong>.</p>
-                <p>This page can be accessed by all authenticated users.</p>
+                <p>As per your role you can request, approve or delete the courses.</p>
                 <div>
                     <table class="table table-striped table-hover table-secondary  table-bordered"  style={{'text-align': 'center'}}>
                       <tr className='bg-dark text-white'>
