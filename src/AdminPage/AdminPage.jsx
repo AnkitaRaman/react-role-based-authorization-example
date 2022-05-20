@@ -16,7 +16,7 @@ class AdminPage extends React.Component {
     }
 
     updateRole(userData){
-        console.log(userData,"shjdhhsdhsjdhj", userData.email)
+        
         fetch("http://34.145.73.148/user", {
             
             method: "POST",
@@ -36,7 +36,7 @@ class AdminPage extends React.Component {
                 window.location.reload()
             },
             error => {
-                console.log(error)
+                
             }
         );
     }
@@ -46,7 +46,7 @@ class AdminPage extends React.Component {
         }
 
     deleteUser(userData){
-        console.log(userData,"shjdhhsdhsjdhj", userData.email);
+        
         fetch(`http://34.145.73.148/user/${userData.userId}`, {
             
             method: "DELETE",
@@ -57,7 +57,7 @@ class AdminPage extends React.Component {
                 window.location.reload()
             },
             error => {
-                console.log(error)
+                
             }
         );
     }
@@ -70,18 +70,6 @@ class AdminPage extends React.Component {
             return <tr >
             <td scope="row">{this.Capitalize(item.firstName)} {this.Capitalize(item.lastName)}</td> 
             <td scope="row">{this.Capitalize(item.role)}</td>
-            {/* {(() => {
-              if (item.role != 'admin'){
-                  return (
-                    <React.Fragment>      
-            <td> <button className="btn btn-primary btn-sm" onClick={() => this.updateRole(item)}> Promote </button></td>
-            
-            </React.Fragment>
-            )
-            }
-        
-             return <td></td>;
-            })()} */}
              <td> <button className="btn btn-primary btn-sm" disabled={item.role=="admin"} onClick={() => this.updateRole(item)}> Promote </button></td>
             
             <td> <button className="btn btn-danger btn-sm" onClick={() => this.deleteUser(item)}>Delete User </button></td>
@@ -90,7 +78,7 @@ class AdminPage extends React.Component {
     }</React.Fragment>
         return (
             <div><h3>User Details Table</h3>
-             <table class="table table-striped table-hover table-secondary  table-bordered" style={{'text-align': 'center'}}>
+             <table className="table table-striped table-hover table-secondary  table-bordered" style={{'text-align': 'center'}}>
               <tr className='bg-dark text-white'>
                 <th scope="col" >User Name</th>
                 <th >Role</th> 

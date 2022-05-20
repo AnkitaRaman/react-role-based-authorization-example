@@ -38,15 +38,15 @@ class CoursesPage extends React.Component {
         this.setState({ coursesFromApi,coursesFromApiLive } );
         
         
-        console.log(coursesFromApi,"akjksjakjs",(coursesFromApiLive))
+        
         });
         // userService.getCourrseById(1).then(getCName => this.setState({ getCName }));
-        console.log(currentUser,"getCName")
+        
         var roleUser=currentUser.role;
     }
 
     deleteUser(courseData){
-      console.log(courseData,"Ankita");
+      
       fetch(`http://34.145.73.148/courses/${courseData.cId}`, {
           
           method: "DELETE",
@@ -57,14 +57,14 @@ class CoursesPage extends React.Component {
               window.location.reload()
           },
           error => {
-              console.log(error)
+              
           }
       );
   }
 
     handleSubmit(event) {
       const { currentUser } = this.state;
-        console.log('A form was submitted: ',currentUser);
+        
         fetch("http://34.145.73.148/courses", {
             
             method: "POST",
@@ -76,15 +76,15 @@ class CoursesPage extends React.Component {
             headers: { 'Content-Type': 'application/json' },
           }).then(
             data=>{
-              console.log("erroe");
+              
               window.location.reload();
             },
             
             error => {
-                console.log(error)
+                
             }
         );
-        alert("course Submitted");
+        alert("Course Submitted");
         
         event.preventDefault();
       }
@@ -99,10 +99,10 @@ class CoursesPage extends React.Component {
       }
 
       approveRequest(event) {
-          console.log("in approval",event.target.cIds.value)
-          console.log('A form was submitted: ' + this.state.name + ' // ' + this.state.email);
-          userService.getCourrseById(event.target.cIds.value).then((getCName) => {console.log("Belsari");this.setState({ getCName }); console.log("getCName",getCName);
-          console.log(getCName.courses,"XXXXXXXXXXX",getCName);
+          
+          
+          userService.getCourrseById(event.target.cIds.value).then((getCName) => {
+          
         fetch("http://34.145.73.148/courses/updatestatus", {
             
             method: "PUT",
@@ -115,11 +115,11 @@ class CoursesPage extends React.Component {
             headers: { 'Content-Type': 'application/json' },
           }).then(
             update=>{
-              alert("course has been approved")
+              alert("Course has been approved")
               window.location.reload(); 
             },
             error => {
-                console.log(error)
+              console.log(error)
             }
         );
         });
@@ -134,9 +134,9 @@ class CoursesPage extends React.Component {
         }
 
       approveRequest1(data) {
-        console.log("in approval",data);
-        userService.getCourrseById(data.cId).then((getCName) => {console.log("Belsari");this.setState({ getCName }); console.log("getCName",getCName);
-        console.log(getCName.courses,"XXXXXXXXXXX",getCName);
+        
+        userService.getCourrseById(data.cId).then((getCName) => {
+        
       fetch("http://34.145.73.148/courses/updatestatus", {
           
           method: "PUT",
@@ -149,11 +149,11 @@ class CoursesPage extends React.Component {
           headers: { 'Content-Type': 'application/json' },
         }).then(
           update=>{
-            alert("course has been approved")
+            alert("Course has been approved")
             window.location.reload(); 
           },
           error => {
-              console.log(error)
+            console.log(error)
           }
       );
       });
@@ -166,7 +166,7 @@ class CoursesPage extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        console.log("tarva",target.value)
+        
         this.setState({
           [name]: value
         });
@@ -182,7 +182,7 @@ class CoursesPage extends React.Component {
           return <tr >
           <td scope="row">{item.cId}</td> 
           <td scope="row" className="kk">{this.Capitalize(item.courses)}</td>
-          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span class="sr-only">Loading...</span></span><strong>{this.Capitalize(item.status)}</strong></td>
+          <td scope="row" className={temp}> <span className={redDot} style={{width: '1rem', height: '1rem'}} role="status"><span className="sr-only">Loading...</span></span><strong>{this.Capitalize(item.status)}</strong></td>
           
           {(() => {
               
@@ -214,11 +214,11 @@ class CoursesPage extends React.Component {
           <input name="email" type="text"  value={this.state.email} disabled onChange={this.handleChange} className="form-control" id="emailImput" placeholder="live" />
         </div>
          }
-        console.log("coursesFromApiLive",coursesFromApiLive)
+        
         return (
             <div>
-                <h3>Hi <strong>{currentUser.firstName}</strong></h3>
-                <p>Your role is: <strong>{currentUser.role}</strong>.</p>
+                <h3>Hi <strong>{this.Capitalize(currentUser.firstName)}</strong></h3>
+                <p>Your role is: <strong>{this.Capitalize(currentUser.role)}</strong>.</p>
                 <p>As per your role you can request, approve or delete the courses.</p>
                 <div>
                     <table class="table table-striped table-hover table-secondary  table-bordered"  style={{'text-align': 'center'}}>
@@ -248,7 +248,6 @@ class CoursesPage extends React.Component {
 <div>
 <form onSubmit={this.handleSubmit} >
 {(() => {
-             // if (currentUser.role == 'user'){
                   return (
                       
                  <div>
@@ -261,9 +260,6 @@ class CoursesPage extends React.Component {
           <input type="submit" value="Submit" className="btn btn-primary" />
           </div>
           )
-      //  }
-        
-      //  return null;
       })()}
         </form>
 
@@ -273,12 +269,6 @@ class CoursesPage extends React.Component {
                   return (
                       
                  <div>
-          {/* <div className="form-group">
-            <label for="nameImput">Course</label>
-            <input type="number" name="cIds" value={this.state.cIds} onChange={this.handleUpdate} className="form-control" id="nameImput" />
-          </div>
-          <input type="submit" value="Submit" className="btn btn-primary" />
-          </div> */}
           
             <h4 style={{padding:"1em 0em 0em 0em"}}>Approve Course by cId</h4>
             <div className="form-group">

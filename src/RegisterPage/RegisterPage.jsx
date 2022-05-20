@@ -60,9 +60,9 @@ class RegisterPage extends React.Component {
                                 setStatus(error);
                             }
                         );
-                        console.log("erroe")
+                        
                         } catch (err) {
-                          console.log(err);
+                            console.log(error)
                         }                        
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
@@ -79,7 +79,7 @@ class RegisterPage extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label>Role</label>
-                                <Field name="role" type="text" className={'form-control' + (errors.role && touched.role ? ' is-invalid' : '')} />
+                                <Field name="role" type="text" disabled className={'form-control' + (errors.role && touched.role ? ' is-invalid' : '')} />
                                 <ErrorMessage name="role" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
@@ -159,7 +159,7 @@ export { RegisterPage };
   //       setMessage("Some error occured");
   //     }
   //   } catch (err) {
-  //     console.log(err);
+  //     
   //   }
   // };
 

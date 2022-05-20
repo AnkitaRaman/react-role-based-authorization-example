@@ -22,12 +22,12 @@ function getById(userId) {
 
 function getCourrseById(cId) {
     const requestOptions = { method: 'GET', headers: authHeader() };
-    console.log("ahgshagsh")
+    
     return fetch(`http://34.145.73.148/courses/${cId}`, requestOptions).then(handleResponse);
 }
 
 function getAllCourses() {
     const requestOptions = { method: 'GET', headers: authHeader() };
-    console.log("data")
+    
     return fetch(`http://34.145.73.148/courses/`, requestOptions).then(handleResponse);
 }

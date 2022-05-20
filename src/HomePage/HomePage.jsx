@@ -16,7 +16,7 @@ class HomePage extends React.Component {
     componentDidMount() {
         const { currentUser } = this.state;
         userService.getById(currentUser.userId).then((userFromApi)=>{ this.setState({ userFromApi });
-        console.log(userFromApi)
+        
         localStorage.setItem('currentUser', JSON.stringify(userFromApi));});
     }
 
@@ -55,10 +55,10 @@ class HomePage extends React.Component {
                         
                         ({ oldPassword, newPassword,confirmPassword }, { setStatus, setSubmitting }) => {
                             setStatus();
-                            console.log(oldPassword,"22",currentUser.password);
-                            console.log("oldPassword",oldPassword);
-                            console.log("newPassword",newPassword);
-                            console.log("confirmPassword",confirmPassword);
+                            
+                            
+                            
+                            
                             if(currentUser.password==oldPassword){
                                 if(newPassword==confirmPassword){
                                 fetch("http://34.145.73.148/user", {
@@ -79,17 +79,17 @@ class HomePage extends React.Component {
                                 user => {
                                     alert("Your Password has been updated !!")
                                     setSubmitting(false);
-                                    console.log("o",user);
+                                    
                                      window.location.reload(); 
                                 },
                                 error => {
-                                    console.log(error);
+                                    
                                     setStatus(error);
                                     setSubmitting(false);
                                 }
                                 )}else{
                                     setSubmitting(false);
-                                    alert("New password and old password doesn't match ! Try again !")
+                                    alert("New password and confirm password doesn't match ! Try again !")
                                 }
                             }else{
                                 alert("Old password incorrect !! Please re-enter the old password")
@@ -98,7 +98,7 @@ class HomePage extends React.Component {
                         
 
                            
-                    console.log("new",newPassword)
+                    
                         }}
                     render={({ errors, status, touched, isSubmitting }) => (
                         <Form>
